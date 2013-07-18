@@ -84,7 +84,7 @@
                 }
                 // Fall back to the Via header
                 // Via: 1.1 cdce-acs006-004.acs006.internap.com:1081 (squid/2.7.STABLE7), 1.0 cdce-acs006-004.acs006.internap.com:80 (squid/2.7.STABLE7)
-                match = /via:.+([a-z0-9]{6})\.internap\.com:80/i.exec(headers);
+                match = /via:.+?([^\.]+)\.internap\.com:80/i.exec(headers);
                 //console.log(match);
                 if (match) {
                     if (2 === match.length) {
