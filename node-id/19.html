@@ -68,17 +68,24 @@
     // returned via a response header.  This isn't necessary unless the
     // server requires it.
     //request.setRequestHeader('X-Some-Custom-Header', 'Gimme the Node ID!');
-
-    
     request.onreadystatechange = function() {
-
         var headers, match;
         if (4 === this.readyState) {
             if (200 === this.status) {
                 headers = this.getAllResponseHeaders();
-                //X-Cache: MISS from cdce-dal003-001.dal003.internap.com
-                match = /X-Cache:\s+[A-Z]{3,4}\s+from\s+\w+\-\w+\-\w+\.([a-z0-9]+)\.internap\.com/.exec(headers);
-                console.log(match);
+                // X-Inap-Server: cdce-nop008-001.nop008.internap.com
+                match = /x-inap-server:[^\.]+\.([^\.]+)\./i.exec(headers);
+                //console.log(match);
+                if (match) {
+                    if (2 === match.length) {
+                        report('s', match[1]);
+                        return;
+                    }
+                }
+                // Fall back to the Via header
+                // Via: 1.1 cdce-acs006-004.acs006.internap.com:1081 (squid/2.7.STABLE7), 1.0 cdce-acs006-004.acs006.internap.com:80 (squid/2.7.STABLE7)
+                match = /via:.+([a-z0-9]{6})\.internap\.com:80/i.exec(headers);
+                //console.log(match);
                 if (match) {
                     if (2 === match.length) {
                         report('s', match[1]);
