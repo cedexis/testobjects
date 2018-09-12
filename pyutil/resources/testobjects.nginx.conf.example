@@ -1,7 +1,7 @@
 server {
-    listen 80;
+    listen 8080;
 
-    server_name testobjects.cedexis.localhost;
+    server_name _;
 
     location /r16 {
         alias /home/jacob/repos/cedexis/testobjects/r16;
